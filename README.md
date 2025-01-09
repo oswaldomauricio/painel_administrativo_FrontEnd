@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+![Logo](https://norteautopecas.com.br/style/public/img/logosNorte/Logo-Grupo%20Norte2.png)
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Painel Administrativo - Norte auto Peças - 2.0
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Esta é a documentação do painel administrativo da empresa Norte Auto Peças.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pré-requisitos
+Antes de iniciar o projeto, verifique se o seguinte software está instalado em sua máquina:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`Node.js (versão 12 ou superior)`
 
-## Learn More
+`NPM (Node Package Manager)`
 
-To learn more about Next.js, take a look at the following resources:
+## Instalação e Execução
+Siga as etapas abaixo para executar o projeto frontend localmente:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Certifique-se de que o backend está sendo executado, para mais informações acesse a Documentação do Backend.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Clone o repositório do projeto: `git clone (colocar o repositorio)`
 
-## Deploy on Vercel
+- Navegue até o diretório do projeto: `cd (nome da pasta do projeto no seu computador)`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Instale as dependências do projeto: `npm install`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Inicie o servidor: `npm run dev`
+
+## Stacks utilizada
+
+**Front-end:** Next JS - (Version 15.1.3 | using app router)
+- Ant Design: https://ant.design
+
+- TailwindCSS: https://v2.tailwindcss.com/docs
+
+**Back-end:** python, Flask
+
+- Flask: https://flask.palletsprojects.com/en/stable/
+
+## Recursos e Funcionalidades
+- Autenticação de usuários usando o banco de dados da empresa.
+- Inserir e visualizar as entradas e saidas do caixa das lojas por usuario.
+
+## Design
+
+Segue link do design utilizado no painel: https://www.figma.com/design/M8KmuQtPCxN9u7lfBQ0XF6/PAINEL---NORTE-AUTO-PE%C3%87AS?node-id=0-1&t=sbnvhuw3SfHZZ6JN-1
+
+## Back-End
+
+Para o back-end do painel, iremos utilizar este repositorio, atualmente feito em Python - (Flask), confira a documentação: https://github.com/oswaldomauricio/Painel-Administrativo-BackEnd
+
+
+
