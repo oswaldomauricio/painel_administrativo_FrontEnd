@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
   pages: {
-    signIn: "/", // Página de login personalizada
+    signIn: "/",
   },
   providers: [
     CredentialsProvider({
@@ -13,48 +13,50 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) {
-          return null;
-        }
+        const response = await fetch(`${process.env.AUTH_API_URL}/usuario`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: credentials?.username,
+            password: credentials?.password,
+          }),
+        });
 
-        // Autenticação fictícia (substitua por sua lógica real)
-        if (credentials.username === "oswaldo" && credentials.password === "123") {
-          return {
-            id: "1",
-            name: "Oswaldo",
-            password: "123",
-          };
-        }
+        const data = await response.json();
 
-        // Retorna null se as credenciais estiverem incorretas
+        if (data.result && response.ok) {
+          console.log(data.result, "vem da api");
+          return data.result;
+        }
         return null;
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Se o usuário existe, associe o token ao usuário
       if (user) {
+        // Adiciona todos os dados do usuário ao token
         token.id = user.id;
         token.name = user.name;
+        token.role = user.role;
         token.password = user.password;
       }
       return token;
     },
     async session({ session, token }) {
-      // Inclua informações adicionais no objeto de sessão
       if (token) {
         session.user = {
-          ...session.user,
           id: token.id,
           name: token.name,
+          role: token.role,
           password: token.password,
         };
       }
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
