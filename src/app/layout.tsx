@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import "@ant-design/v5-patch-for-react-19";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import NextAuthSessionProvider from "@/providers/sessionsProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className={inter.variable} suppressHydrationWarning>
       <body className={`antialiased bg-bg-scren`}>
-        <AntdRegistry>{children}</AntdRegistry>
+        <NextAuthSessionProvider>
+          <AntdRegistry>
+            {children}
+            </AntdRegistry>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );
