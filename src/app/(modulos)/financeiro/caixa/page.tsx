@@ -7,7 +7,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function ModuloCaixa() {
   const session = await getServerSession(authOptions);
-  // console.log(session.user?)
 
   if (!session) {
     redirect("/");
@@ -15,7 +14,7 @@ export default async function ModuloCaixa() {
   
 
   return (
-    <div className="flex items-center justify-center flex-col">
+    <div className="">
       <h1>ola</h1>
       <div>{session.user?.name}</div>
       <div>{session.user?.id}</div>

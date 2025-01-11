@@ -6,14 +6,15 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Modulo23() {
   const session = await getServerSession(authOptions);
-  console.log(session.user);
+  // console.log(session.user);
 
   if (!session) {
     redirect("/");
   }
 
   return (
-    <div className="flex items-center justify-center flex-col">
+    // <div className="flex items-center justify-center flex-col">
+    <div className="">
       <h1>ola2</h1>
       <div>{session.user?.id}</div>
       <div>{session.user?.name}</div>
