@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import LogoutForm from "@/app/(login)/components/logoutForm";
 import Link from "next/link";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
+import React from "react";
 export default async function Modulo23() {
   const session = await getServerSession(authOptions);
   // console.log(session.user);
@@ -23,6 +23,15 @@ export default async function Modulo23() {
       <div>
         <LogoutForm />
       </div>
+      {
+        // indicates very long content
+        Array.from({ length: 100 }, (_, index) => (
+          <React.Fragment key={index}>
+            {index % 20 === 0 && index ? "more" : "..."}
+            <br />
+          </React.Fragment>
+        ))
+      }
     </div>
   );
 }
