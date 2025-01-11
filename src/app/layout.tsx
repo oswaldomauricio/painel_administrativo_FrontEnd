@@ -12,8 +12,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | NORTE AUTO PEÇAS",
-    default: "PAINEL ADMINISTRATIVO",
+    template: "%s | Norte Auto Peças",
+    default: "Painel Administrativo | Norte Auto Peças",
   },
 };
 
