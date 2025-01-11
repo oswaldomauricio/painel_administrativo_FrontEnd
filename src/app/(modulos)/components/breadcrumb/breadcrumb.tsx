@@ -14,7 +14,7 @@ interface HeaderComponentProps {
 
 export default function BreadcrumbComponents({ current }: HeaderComponentProps) {
   return (
-    <Breadcrumb style={{ margin: "16px 0" }}>
+    <Breadcrumb style={{ margin: "12px 0" }}>
       {breadcrumbMap[current]?.map((breadcrumb, index) => (
         <Breadcrumb.Item key={index}>{breadcrumb}</Breadcrumb.Item>
       ))}
