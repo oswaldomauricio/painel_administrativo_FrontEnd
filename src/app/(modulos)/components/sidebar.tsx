@@ -7,6 +7,8 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import BreadcrumbComponents from "./breadcrumb/breadcrumb";
 import HeaderComponent from "./header";
+import { useSession } from "next-auth/react";
+
 const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -36,6 +38,8 @@ export default function Sidebar({ children }: { children: ReactNode }) {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const { data: session, status } = useSession(); // Hook para obter a sessão
+
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
 
@@ -50,7 +54,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
   };
 
   return (
-    <Layout className="h-svh">
+    <Layout className="h-svh overflow-hidden">
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -75,15 +79,35 @@ export default function Sidebar({ children }: { children: ReactNode }) {
           theme="dark"
           onClick={onClick}
           style={{ width: 200, color: "white" }}
-          defaultOpenKeys={["Financeiro"]}
           selectedKeys={[current]}
           mode="inline"
           items={items}
         />
       </Sider>
       <Layout>
-        <HeaderComponent />
-        <Content style={{ margin: "24px 16px 0" }}>
+        <HeaderComponent>
+          <div>
+            {status === "loading" && <span>Carregando...</span>}
+            {session ? (
+              <div className="flex flex-row gap-2 items-center justify-center">
+                <div className="font-semibold text-black">
+                  {session.user?.name || "Usuário"}
+                </div>
+                <div className="w-[1px] h-5 bg-black" />
+                <Image
+                  src="/profileIcon.png"
+                  alt="perfil"
+                  width={40}
+                  height={20}
+                  quality={100}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        </HeaderComponent>
+        <Content style={{ margin: "16px 16px 0", overflow: "auto" }}>
           <BreadcrumbComponents current={current} />
           <div
             style={{
