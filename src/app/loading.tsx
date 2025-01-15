@@ -3,8 +3,8 @@ import { Flex, Spin } from 'antd';
 
 export default function LoadingHome() {
   return (
-    <div>
-      <Flex align="center" gap="middle">
+    <div className='h-svh flex justify-center items-center'>
+      <Flex align="center" justify='center' gap="middle">
         <Spin indicator={<LoadingOutlined style={{ fontSize: 80 }} spin />} />
       </Flex>
     </div>
