@@ -27,7 +27,7 @@ export const authOptions = {
         const data = await response.json();
 
         if (data.result && response.ok) {
-          console.log(data.result, "vem da api");
+          // console.log(data.result, "vem da api");
           return data.result;
         }
         return null;
