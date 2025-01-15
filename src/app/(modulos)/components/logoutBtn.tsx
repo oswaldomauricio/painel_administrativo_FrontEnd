@@ -1,10 +1,23 @@
-'use client'
-import { Button } from "antd";
+"use client";
 import { signOut } from "next-auth/react";
+import { Button } from "antd";
 
-export default function LogoutBtn() {
+export function LogoutBtn() {
   return (
-    <Button type="primary" htmlType="submit" className="" onClick={() => signOut()}>
+    <Button
+      type="primary"
+      htmlType="submit"
+      className=""
+      onClick={() => signOut()}
+    >
+      Sair
+    </Button>
+  );
+}
+
+export function LogoutBtnProfile() {
+  return (
+    <Button type="text" danger onClick={() => signOut()}>
       Sair
     </Button>
   );
