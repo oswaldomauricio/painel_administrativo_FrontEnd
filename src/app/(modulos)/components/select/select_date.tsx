@@ -17,12 +17,13 @@ export default function SelectDate({ data, onChange }: DataProps) {
   };
 
   return (
-    <Space direction="vertical" size={12}>
+    <Space direction="vertical" size={20}>
       <DatePicker
         placeholder="Selecione a Data"
         format={dateFormat}
         onChange={handleDateChange}
         value={data ? dayjs(data, dateFormat) : null}
+        className="w-[200px]"
       />
     </Space>
   );
