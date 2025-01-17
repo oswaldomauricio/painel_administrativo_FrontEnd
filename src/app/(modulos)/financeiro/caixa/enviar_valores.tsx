@@ -36,6 +36,7 @@ export default function Enviar_valores() {
     setError("");
     setSucess("");
     setError("");
+    setAlertField("");
     setResetTrigger((prev) => prev + 1);
   };
 
@@ -230,7 +231,17 @@ export default function Enviar_valores() {
                 <Select_input_text
                   title="Digite a origem"
                   text={origem}
-                  onChange={(value) => setOrigem(value)}
+                  onChange={(value) => {
+                    const truncatedValue = value.slice(0, 100);
+                    setOrigem(truncatedValue);
+                    if (value.length > 100) {
+                      setAlertField(
+                        "O campo de origem não pode ter mais de 100 caracteres."
+                      );
+                    } else {
+                      setAlertField("");
+                    }
+                  }}
                   resetTrigger={resetTrigger} 
                 />
               </Form.Item>
