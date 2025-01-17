@@ -9,6 +9,7 @@ import Select_Tipo_Operacao from "../../components/select/select_tipo_operacao";
 import Select_date from "../../components/select/select_date";
 import Select_valor from "../../components/select/select_valor";
 import Select_input_text from "../../components/select/select_input_text";
+import { Alert_sucess } from "../../components/alert/alert";
 
 export default function Enviar_valores() {
   const [open, setOpen] = useState(false);
@@ -77,7 +78,7 @@ export default function Enviar_valores() {
       return;
     }
     const payload = {
-      id_loja: parseInt(selectedIdLoja),
+      loja: parseInt(selectedLoja),
       data: selectedDate,
       id_user: userId,
       numero_doc: numeroDoc,
@@ -248,17 +249,9 @@ export default function Enviar_valores() {
             </Col>
           </Row>
         </Form>
-        <div className="text-red-500">{error}</div>
-        <div className="text-green-400">{sucess}</div>
-        <div className="text-orange-300">{alertField}</div>
-        <div>Loja: {selectedLoja}</div>
-        <div>Id Loja: {selectedIdLoja}</div>
-        <div>Tipo Operação: {tipoOperacao}</div>
-        <div>Data: {selectedDate}</div>
-        <div>Valor: R$ {selectedValor}</div>
-        <div>Numero Doc: {numeroDoc}</div>
-        <div>Origem: {origem}</div>
-        <div>ID do usuário: {userId}</div>
+        {error && <div className="">{<Alert_sucess type="error" mensagem="Error" description={error} />}</div>}
+        {sucess && <div className="">{<Alert_sucess type="success" mensagem="Sucesso" description={sucess} />}</div>}
+        {alertField && <div className="">{<Alert_sucess type="warning" mensagem="Atenção" description={alertField} />}</div>}
       </Drawer>
     </div>
   );

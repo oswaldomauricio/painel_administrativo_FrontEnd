@@ -8,6 +8,7 @@ import RelatorioCaixaTable from "../../components/table/RelatorioCaixaTable";
 import { RelatorioResponse, CaixaItem, Saldo } from "../../types/CaixaTypes";
 import { Card_values_caixa } from "../../components/cards/card_values_caixa";
 import { WalletOutlined, FallOutlined, RiseOutlined } from "@ant-design/icons";
+import { Alert_sucess } from "../../components/alert/alert";
 
 export default function Relatorio_valores() {
   const [selectedLoja, setSelectedLoja] = useState("");
@@ -28,7 +29,7 @@ export default function Relatorio_valores() {
     setAlert("");
 
     const payload = {
-      id_loja: parseInt(selectedIdLoja),
+      loja: parseInt(selectedLoja),
       data: selectedDate,
     };
 
@@ -53,7 +54,7 @@ export default function Relatorio_valores() {
       } else {
         setTableData([])
         setSaldoData(null)
-        setAlert("Sem dados no relatorio com a data especificada!");
+        setAlert("Sem dados no relatorio com a data inserida!");
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -124,7 +125,7 @@ export default function Relatorio_valores() {
       </Row>
       <Row>
         <Col span={24} className="py-6">
-          {alert && <div className="text-red-500 py-4">{alert}</div>}
+          {alert && <div className="p-2">{<Alert_sucess type="warning" mensagem="Atenção" description={alert} />}</div>}
           <RelatorioCaixaTable data={tableData} />
         </Col>
       </Row>
