@@ -1,7 +1,7 @@
 export interface CaixaItem {
   data: string;
   id: number;
-  id_stores: number;
+  loja: number;
   id_users: number;
   num_doc: string;
   origem: string;
