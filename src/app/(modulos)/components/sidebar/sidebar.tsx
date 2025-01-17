@@ -23,10 +23,6 @@ const items: MenuItem[] = [
         key: "caixa",
         label: "Caixa",
       },
-      {
-        key: "caixa2",
-        label: "Caixa 2",
-      },
     ],
   },
 ];
@@ -45,7 +41,6 @@ export default function Sidebar({ children }: { children: ReactNode }) {
 
     const routes: Record<string, string> = {
       caixa: "/financeiro/caixa",
-      caixa2: "/financeiro",
     };
 
     if (routes[e.key]) {
@@ -58,12 +53,6 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
       >
         <div className="flex items-center justify-center">
           <Image
@@ -114,7 +103,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
           <div
             style={{
               padding: 24,
-              minHeight: 360,
+              minHeight: 800,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
