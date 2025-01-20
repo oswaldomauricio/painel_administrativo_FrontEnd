@@ -18,11 +18,51 @@ export async function POST(request: NextRequest) {
 
     try {
       data = await response.json();
-      console.log(data, body, 'vem da api e ta ok')
     } catch (error) {
-      console.error("Failed to parse JSON response:", error);
+      console.error("Falha ao passar para formato JSON", error);
       return NextResponse.json(
-        { error: "Invalid server response. Please check the API." },
+        { error: "Resposta do servidor invalida, por favor, verifique a API." },
+        { status: 500 }
+      );
+    }
+
+    if (!response.ok) {
+      return NextResponse.json(data, { status: response.status });
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Erro no servidor:", error);
+    return NextResponse.json(
+      { error: "Ocorreu um erro, verifique!" },
+      { status: 500 }
+    );
+  }
+}
+
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    const apiUrl = `${process.env.AUTH_API_URL}/cashbox`;
+
+    const response = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    let data;
+
+    try {
+      data = await response.json();
+    } catch (error) {
+      console.error("Falha ao passar para formato JSON:", error);
+      return NextResponse.json(
+        { error: "Resposta do servidor invalida, por favor, verifique a API." },
         { status: 500 }
       );
     }
