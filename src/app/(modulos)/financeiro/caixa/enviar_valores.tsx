@@ -30,9 +30,9 @@ export default function Enviar_valores() {
   const [alertField, setAlertField] = useState("");
 
   const resetValues = () => {
-    setNumeroDoc('');
-    setTipoOperacao('');
-    setOrigem('');
+    setNumeroDoc("");
+    setTipoOperacao("");
+    setOrigem("");
     setSelectedValor(0);
     setError("");
     setSucess("");
@@ -73,7 +73,14 @@ export default function Enviar_valores() {
   };
 
   const handleSubmit = async () => {
-    if (!selectedIdLoja || !selectedDate || !tipoOperacao || !selectedValor || !numeroDoc || !origem) {
+    if (
+      !selectedIdLoja ||
+      !selectedDate ||
+      !tipoOperacao ||
+      !selectedValor ||
+      !numeroDoc ||
+      !origem
+    ) {
       setAlertField("Preencha todos os campos obrigatórios!");
       return;
     }
@@ -99,29 +106,43 @@ export default function Enviar_valores() {
       const data = await response.json();
 
       if (response.ok) {
-        const logSucess = data.result
-        console.log(logSucess, data.caixas)
+        const logSucess = data.result;
+        console.log(logSucess, data.caixas);
         setSucess(logSucess);
         setTimeout(() => resetValues(), 3000);
       } else {
-        const logError = data.error
-        console.log(logError)
+        const logError = data.error;
+        console.log(logError);
         setError(logError);
       }
     } catch (error) {
       console.error("Erro ao enviar dados:", error);
-      const logError = `erro ao enviar dados: ${error}`
+      const logError = `erro ao enviar dados: ${error}`;
       setError(logError);
     }
   };
 
   return (
     <div>
-      <Button type="primary" onClick={showDrawer} icon={<PlusOutlined />}>
-        Inserir valor
-      </Button>
+      <div className="max-w-full">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex flex-col w-[400px]">
+            <div className="font-semibold text-2xl font-sans text-gray-800">
+              Relatorio de Caixa
+            </div>
+            <div className="font-normal text-base font-sans text-gray-500">
+              Insira os valores de entrada e saida no caixa.
+            </div>
+          </div>
+          <div>
+            <Button type="primary" onClick={showDrawer} icon={<PlusOutlined />}>
+              Inserir valor
+            </Button>
+          </div>
+        </div>
+      </div>
       <Drawer
-        title="Enviar valor para o caixa:"
+        title="Inserir valor no caixa:"
         width={720}
         onClose={onClose}
         open={open}
@@ -163,7 +184,7 @@ export default function Enviar_valores() {
                 <Select_Tipo_Operacao
                   TipoOperacao={tipoOperacao}
                   onChange={handleTipoOperacaoChange}
-                  resetTrigger={resetTrigger} 
+                  resetTrigger={resetTrigger}
                 />
               </Form.Item>
             </Col>
@@ -243,15 +264,39 @@ export default function Enviar_valores() {
                       setAlertField("");
                     }
                   }}
-                  resetTrigger={resetTrigger} 
+                  resetTrigger={resetTrigger}
                 />
               </Form.Item>
             </Col>
           </Row>
         </Form>
-        {error && <div className="">{<Alert_sucess type="error" mensagem="Error" description={error} />}</div>}
-        {sucess && <div className="">{<Alert_sucess type="success" mensagem="Sucesso" description={sucess} />}</div>}
-        {alertField && <div className="">{<Alert_sucess type="warning" mensagem="Atenção" description={alertField} />}</div>}
+        {error && (
+          <div className="">
+            {<Alert_sucess type="error" mensagem="Error" description={error} />}
+          </div>
+        )}
+        {sucess && (
+          <div className="">
+            {
+              <Alert_sucess
+                type="success"
+                mensagem="Sucesso"
+                description={sucess}
+              />
+            }
+          </div>
+        )}
+        {alertField && (
+          <div className="">
+            {
+              <Alert_sucess
+                type="warning"
+                mensagem="Atenção"
+                description={alertField}
+              />
+            }
+          </div>
+        )}
       </Drawer>
     </div>
   );

@@ -95,7 +95,7 @@ export default function Relatorio_valores() {
         </Col>
         <Col span={6} className="flex justify-center">
           <Card_values_caixa
-            title="Saldo"
+            title="Saldo Total"
             value={saldoData?.["Saldo total"] || 0}
             icon={WalletOutlined}
             color="text-bg-saldo"
