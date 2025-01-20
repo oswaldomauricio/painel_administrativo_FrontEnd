@@ -1,12 +1,23 @@
 import { Table } from "antd";
 import type { TableColumnsType } from "antd";
-import { CaixaItem } from "../../types/CaixaTypes"; // Importa a interface existente
+import { CaixaItem } from "../../types/CaixaTypes";
+import { Modal_Central } from "../modal/modal_central";
 
 interface RelatorioCaixaTableProps {
-  data: (CaixaItem & { key: number })[]; // Adiciona a propriedade `key` aos dados
+  data: (CaixaItem & { key: number })[];
 }
 
 const columns: TableColumnsType<CaixaItem & { key: number }> = [
+  
+  {
+    title: "Ações",
+    dataIndex: "",
+    key: "x",
+    align: "center",
+    render: (_, record) => (
+      <Modal_Central id={record.id} />
+    ),
+  },
   {
     title: "Data",
     dataIndex: "data",
