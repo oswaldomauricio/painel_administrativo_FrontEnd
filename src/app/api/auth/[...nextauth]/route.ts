@@ -1,7 +1,9 @@
 import NextAuth from "next-auth";
+import { JWT } from "next-auth/jwt";
+import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/",
   },
@@ -35,7 +37,8 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user }: {token: JWT, user: any}) {
       if (user) {
         // Adiciona todos os dados do usuário ao token
         token.id = user.id;
@@ -45,7 +48,8 @@ export const authOptions = {
       }
       return token;
     },
-    async session({ session, token }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: {token: JWT, session: any}) {
       if (token) {
         session.user = {
           id: token.id,
