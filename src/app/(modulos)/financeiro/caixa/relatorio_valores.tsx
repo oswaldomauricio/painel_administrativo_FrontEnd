@@ -42,15 +42,18 @@ export default function Relatorio_valores() {
       const data: RelatorioResponse = await response.json();
 
       if (response.ok && data.status === 200) {
-        setTableData(
-          data.Caixa.map((item) => ({
-            ...item,
-            key: item.id,
-          }))
-        );
+        const mappedData = data.Caixa.map((item) => ({
+          ...item,
+          key: item.id,
+        }));
+
+        setTableData(mappedData);
         setSaldoData(data.Saldo);
-        if(tableData.length === 0){
-          setAlert("Sem dados de entrada e saída no relatorio com a data inserida!");
+
+        if (mappedData.length === 0) {
+          setAlert(
+            "Sem dados de entrada e saída no relatorio com a data inserida!"
+          );
         }
       } else {
         setTableData([]);
