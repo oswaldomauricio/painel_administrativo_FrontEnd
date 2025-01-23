@@ -9,7 +9,7 @@ export async function generateMetadata() {
 }
 export default function StoreLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="items-center justify-center mx-auto grid min-h-screen w-full"> 
+    <div className="items-center justify-center mx-auto grid min-h-screen w-full bg-sidebar_main"> 
       {children}
     </div>
   );
