@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { Col, Row, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -19,7 +19,6 @@ export default function Relatorio_valores() {
     []
   );
   const [saldoData, setSaldoData] = useState<Saldo | null>(null);
-
 
   const handleSubmit = async () => {
     if (!selectedIdLoja || !selectedDate) {
@@ -49,11 +48,13 @@ export default function Relatorio_valores() {
             key: item.id,
           }))
         );
-        setSaldoData(data.Saldo)
-
+        setSaldoData(data.Saldo);
+        if(tableData.length === 0){
+          setAlert("Sem dados de entrada e saída no relatorio com a data inserida!");
+        }
       } else {
-        setTableData([])
-        setSaldoData(null)
+        setTableData([]);
+        setSaldoData(null);
         setAlert("Sem dados no relatorio com a data inserida!");
       }
     } catch (error) {
@@ -125,7 +126,17 @@ export default function Relatorio_valores() {
       </Row>
       <Row>
         <Col span={24} className="py-6">
-          {alert && <div className="p-2">{<Alert_sucess type="warning" mensagem="Atenção" description={alert} />}</div>}
+          {alert && (
+            <div className="p-2">
+              {
+                <Alert_sucess
+                  type="warning"
+                  mensagem="Atenção"
+                  description={alert}
+                />
+              }
+            </div>
+          )}
           <RelatorioCaixaTable data={tableData} />
         </Col>
       </Row>
