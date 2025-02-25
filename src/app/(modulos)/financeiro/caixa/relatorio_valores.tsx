@@ -146,9 +146,9 @@ export default function Relatorio_valores() {
         </Col>
       </Row>
       <Row className="py-6 flex justify-between">
-        <Col span={6}>
+        <Col span={8}>
           {user_role === "ADMIN" ? (
-            <div className="flex w-10 justify-between gap-2 ">
+            <div className="flex  justify-between gap-2 ">
               <Select_date
                 data={selectedDate}
                 onChange={handleDateChange}
@@ -168,14 +168,14 @@ export default function Relatorio_valores() {
             />
           )}
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <SelectBtn_lojas
             loja={selectedLoja}
             id={selectedIdLoja}
             onChange={handleLojaChange}
           />
         </Col>
-        <Col span={12}>
+        <Col span={3}>
           <Button
             icon={<SearchOutlined />}
             onClick={handleSubmit}
