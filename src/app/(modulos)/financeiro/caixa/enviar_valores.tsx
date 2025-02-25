@@ -10,6 +10,7 @@ import Select_date from "../../components/select/select_date";
 import Select_valor from "../../components/select/select_valor";
 import Select_input_text from "../../components/select/select_input_text";
 import { Alert_sucess } from "../../components/alert/alert";
+import Select_Tipo from "../../components/select/select_tipo";
 
 export default function Enviar_valores() {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,7 @@ export default function Enviar_valores() {
   const [resetTrigger, setResetTrigger] = useState(0);
 
   const [tipoOperacao, setTipoOperacao] = useState<string>("");
+  const [tipo, setTipo] = useState<string>("");
   const [numeroDoc, setNumeroDoc] = useState("");
   const [origem, setOrigem] = useState("");
   const [selectedLoja, setSelectedLoja] = useState("");
@@ -32,6 +34,7 @@ export default function Enviar_valores() {
   const resetValues = () => {
     setNumeroDoc("");
     setTipoOperacao("");
+    setTipo("");
     setOrigem("");
     setSelectedValor(0);
     setError("");
@@ -72,11 +75,16 @@ export default function Enviar_valores() {
     setTipoOperacao(value);
   };
 
+  const handleTipoChange = (value: string) => {
+    setTipo(value);
+  };
+
   const handleSubmit = async () => {
     if (
       !selectedIdLoja ||
       !selectedDate ||
       !tipoOperacao ||
+      !tipo ||
       !selectedValor ||
       !numeroDoc ||
       !origem
@@ -91,6 +99,7 @@ export default function Enviar_valores() {
       numero_doc: numeroDoc,
       origem: origem,
       tipo_operacao: tipoOperacao,
+      tipo: tipo,
       valor: selectedValor,
     };
 
@@ -208,6 +217,21 @@ export default function Enviar_valores() {
                 <Select_valor
                   valor={selectedValor}
                   onChange={handleValueChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <Form.Item
+                name="Selecione o tipo"
+                label="Selecione o tipo"
+                rules={[{ required: true, message: "Selecione o tipo" }]}
+              >
+                <Select_Tipo
+                  Tipo={tipo}
+                  onChange={handleTipoChange}
+                  resetTrigger={resetTrigger}
                 />
               </Form.Item>
             </Col>

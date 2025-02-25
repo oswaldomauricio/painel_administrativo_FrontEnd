@@ -1,5 +1,6 @@
-'use client'
-import { Table } from "antd";
+"use client";
+
+import { Table, Empty, Spin } from "antd";
 import type { TableColumnsType } from "antd";
 import { CaixaItem } from "../../types/CaixaTypes";
 import { Modal_Central } from "../modal/modal_central";
@@ -7,11 +8,22 @@ import { useSession } from "next-auth/react";
 
 interface RelatorioCaixaTableProps {
   data: (CaixaItem & { key: number })[];
+  loading: boolean;
 }
 
-export default function RelatorioCaixaTable({ data }: RelatorioCaixaTableProps) {
-  const { data: session } = useSession();
+export default function RelatorioCaixaTable({
+  data, loading
+}: RelatorioCaixaTableProps) {
+  const { data: session, status } = useSession();
   const userRole = session?.user?.role || "";
+
+  if (status === "loading") {
+    return (
+      <div className="items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   const columns: TableColumnsType<CaixaItem & { key: number }> = [
     {
@@ -30,23 +42,17 @@ export default function RelatorioCaixaTable({ data }: RelatorioCaixaTableProps) 
       title: "Número Documento",
       dataIndex: "num_doc",
       align: "center",
-      render: (text: string) => {
-        return <span className="flex justify-center">{text}</span>;
-      },
+      render: (text: string) => (
+        <span className="flex justify-center">{text}</span>
+      ),
     },
     {
       title: "Tipo Operação",
       dataIndex: "tipo_operacao",
       align: "center",
       filters: [
-        {
-          text: "ENTRADA",
-          value: "ENTRADA",
-        },
-        {
-          text: "SAIDA",
-          value: "SAIDA",
-        },
+        { text: "ENTRADA", value: "ENTRADA" },
+        { text: "SAIDA", value: "SAIDA" },
       ],
       filterMode: "tree",
       filterSearch: true,
@@ -70,6 +76,32 @@ export default function RelatorioCaixaTable({ data }: RelatorioCaixaTableProps) 
           </span>
         );
       },
+    },
+    {
+      title: "Tipo do documento",
+      dataIndex: "tipo",
+      align: "center",
+      filters: [
+        { text: "RECIBO", value: "RECIBO" },
+        { text: "CF / NF", value: "CF / NF" },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value, record) =>
+        !!record.tipo && record.tipo.startsWith(value as string),
+      width: "20%",
+      render: (text: string) => (
+        <span
+          style={{
+            fontWeight: "bold",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            display: "inline-block",
+          }}
+        >
+          {text}
+        </span>
+      ),
     },
     {
       title: "Valor",
@@ -105,5 +137,15 @@ export default function RelatorioCaixaTable({ data }: RelatorioCaixaTableProps) 
     },
   ];
 
-  return <Table columns={columns} dataSource={data} pagination={false} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      pagination={false}
+      loading={loading}
+      locale={{
+        emptyText: loading ? <Spin size="large" /> : <Empty description="Não há dados!" />,
+      }}
+    />
+  );
 }

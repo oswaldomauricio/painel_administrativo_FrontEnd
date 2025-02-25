@@ -15,10 +15,9 @@ export default function Relatorio_valores() {
   const [selectedIdLoja, setSelectedIdLoja] = useState("");
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [alert, setAlert] = useState<string>("");
-  const [tableData, setTableData] = useState<(CaixaItem & { key: number })[]>(
-    []
-  );
+  const [tableData, setTableData] = useState<(CaixaItem & { key: number })[]>([]);
   const [saldoData, setSaldoData] = useState<Saldo | null>(null);
+  const [loading, setLoading] = useState<boolean>(false); // Estado de carregamento
 
   const handleSubmit = async () => {
     if (!selectedIdLoja || !selectedDate) {
@@ -26,6 +25,7 @@ export default function Relatorio_valores() {
       return;
     }
     setAlert("");
+    setLoading(true); // Inicia carregamento
 
     const payload = {
       loja: parseInt(selectedLoja),
@@ -49,16 +49,14 @@ export default function Relatorio_valores() {
 
         setTableData(mappedData);
         setSaldoData(data.Saldo);
-
+        
         if (mappedData.length === 0) {
-          setAlert(
-            "Sem dados de entrada e saída no relatorio com a data inserida!"
-          );
+          setAlert("Sem dados de entrada e saída no relatório para a data inserida!");
         }
       } else {
         setTableData([]);
         setSaldoData(null);
-        setAlert("Sem dados no relatorio com a data inserida!");
+        setAlert("Sem dados no relatório para a data inserida!");
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -66,6 +64,8 @@ export default function Relatorio_valores() {
       } else {
         setAlert("Erro desconhecido ao enviar dados.");
       }
+    } finally {
+      setLoading(false); // Finaliza carregamento
     }
   };
 
@@ -91,7 +91,7 @@ export default function Relatorio_valores() {
         </Col>
         <Col span={6} className="flex justify-center">
           <Card_values_caixa
-            title="Saida"
+            title="Saída"
             value={saldoData?.saida || 0}
             icon={FallOutlined}
             color="text-bg-saida"
@@ -122,6 +122,7 @@ export default function Relatorio_valores() {
             icon={<SearchOutlined />}
             onClick={handleSubmit}
             type="primary"
+            loading={loading} // Botão exibe carregamento
           >
             Relatório
           </Button>
@@ -131,16 +132,14 @@ export default function Relatorio_valores() {
         <Col span={24} className="py-6">
           {alert && (
             <div className="p-2">
-              {
-                <Alert_sucess
-                  type="warning"
-                  mensagem="Atenção"
-                  description={alert}
-                />
-              }
+              <Alert_sucess
+                type="warning"
+                mensagem="Atenção"
+                description={alert}
+              />
             </div>
           )}
-          <RelatorioCaixaTable data={tableData} />
+          <RelatorioCaixaTable data={tableData} loading={loading} /> {/* Passa `loading` para a tabela */}
         </Col>
       </Row>
     </div>
