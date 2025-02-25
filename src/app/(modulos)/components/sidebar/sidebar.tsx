@@ -7,7 +7,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import HeaderComponent from "./header";
 import { useSession } from "next-auth/react";
-import {LogoutBtnProfile} from "../logoutBtn";
+import { LogoutBtnProfile } from "../logoutBtn";
 
 const { Content, Sider } = Layout;
 
@@ -50,10 +50,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
 
   return (
     <Layout className="h-svh overflow-hidden">
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-      >
+      <Sider breakpoint="lg" collapsedWidth="0">
         <div className="flex items-center justify-center">
           <Image
             alt="Logo da empresa"
@@ -77,20 +74,20 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       <Layout>
         <HeaderComponent>
           <div>
-            {status === "loading" && <div className="bg-zinc-50/10 animate-pulse rounded-md w-8 h-1 p-2">Carregando...</div>}
+            {status === "loading" && (
+              <div className="bg-zinc-50/10 animate-pulse rounded-md w-8 h-1 p-2">
+                Carregando...
+              </div>
+            )}
             {session ? (
               <div className="flex flex-row gap-2 items-center justify-center">
                 <div className="font-semibold text-black">
                   {session.user?.name.toUpperCase() || "Usuário"}
                 </div>
                 <div className="w-[1px] h-5 bg-black" />
-                <Image
-                  src="/profileIcon.png"
-                  alt="perfil"
-                  width={40}
-                  height={20}
-                  quality={100}
-                />
+                <div className="font-semibold text-gray-500">
+                  {session.user?.role.toUpperCase() || "Permissão"}
+                </div>
                 <div className="w-[1px] h-5 bg-black" />
                 <LogoutBtnProfile />
               </div>

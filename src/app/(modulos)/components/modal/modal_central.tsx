@@ -5,13 +5,14 @@ import { RelatorioResponse } from "../../types/CaixaTypes";
 
 interface ModalCentralProps {
     id: number;
+    role: string;
   }
   
-  export function Modal_Central({ id }: ModalCentralProps) {
+  export function Modal_Central({ id, role }: ModalCentralProps) {
     const { confirm } = Modal;
   
     const handleSubmit = async () => {
-      const payload = { id }; // Use o ID recebido aqui
+      const payload = { id, role }; // Use o ID recebido aqui
   
       try {
         const response = await fetch("/api/relatorio", {
@@ -22,10 +23,15 @@ interface ModalCentralProps {
   
         const data: RelatorioResponse = await response.json();
         if (response.ok && data.status === 200) {
-          console.log("Excluído com sucesso");
+          console.log(response);
           message.success("Registro excluído com sucesso!");
-        } else {
-          console.log("Erro ao excluir, tente novamente ou entre em contato com o T.I.");
+        } else if (response.status == 403) {
+          console.log("Não é possivel excluir registros antigos, solicite a exclusão para quem faz a conferência do seu caixa!", response.status);
+          message.error(
+            "Não é possivel excluir registros antigos, solicite a exclusão para quem faz a conferência do seu caixa!"
+          );
+        } else{
+          console.log("Erro ao excluir, tente novamente ou entre em contato com o T.I.", response.status);
           message.error(
             "Erro ao excluir, tente novamente ou entre em contato com o T.I."
           );
@@ -38,7 +44,7 @@ interface ModalCentralProps {
   
     const showDeleteConfirm = () => {
       confirm({
-        title: "Você tem certeza que deseja cancelar o valor?",
+        title: "Você tem certeza que deseja deletar o valor?",
         icon: <ExclamationCircleFilled />,
         content: "Clique em deletar caso sim!",
         okText: "Deletar",

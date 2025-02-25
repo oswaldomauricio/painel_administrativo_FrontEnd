@@ -21,11 +21,13 @@ interface ApiResponse {
 interface LojaProps {
   loja: string;
   id: string;
-  onChange: (loja: string, id: string) => void; 
+  onChange: (loja: string, id: string) => void;
 }
 
 const SelectBtn_lojas = ({ onChange }: LojaProps) => {
-  const [options, setOptions] = useState<{ value: number; label: number; id: number }[]>([]);
+  const [options, setOptions] = useState<
+    { value: number; label: number; id: number }[]
+  >([]);
   const [loading, setLoading] = useState(false);
 
   const fetchLojas = async () => {
@@ -41,11 +43,13 @@ const SelectBtn_lojas = ({ onChange }: LojaProps) => {
       }
 
       const data: ApiResponse = await response.json();
-      const lojas = data.stores.map((store) => ({
-        value: store.loja, // Valor exibido no dropdown
-        label: store.loja, // Rótulo exibido no dropdown
-        id: store.id, // ID da loja
-      }));
+      const lojas = data.stores
+        .map((store) => ({
+          value: store.loja, // Valor exibido no dropdown
+          label: store.loja, // Rótulo exibido no dropdown
+          id: store.id, // ID da loja
+        }))
+        .sort((a, b) => a.label - b.label);
 
       setOptions(lojas);
     } catch (error: unknown) {
@@ -64,7 +68,7 @@ const SelectBtn_lojas = ({ onChange }: LojaProps) => {
   const handleChange = (value: number) => {
     const selectedOption = options.find((option) => option.value === value);
     if (selectedOption) {
-      onChange(String(selectedOption.label), String(selectedOption.id)); // Passando loja e id
+      onChange(String(selectedOption.label), String(selectedOption.id)); 
     }
   };
 

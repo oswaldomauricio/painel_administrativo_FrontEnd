@@ -7,6 +7,7 @@ export interface CaixaItem {
   origem: string;
   status: boolean;
   tipo_operacao: string;
+  tipo: string;
   valor: string;
   entrada: number;
   saida: number;
