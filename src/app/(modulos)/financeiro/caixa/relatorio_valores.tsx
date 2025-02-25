@@ -25,7 +25,7 @@ export default function Relatorio_valores() {
       return;
     }
     setAlert("");
-    setLoading(true); // Inicia carregamento
+    setLoading(true);
 
     const payload = {
       loja: parseInt(selectedLoja),
@@ -65,7 +65,7 @@ export default function Relatorio_valores() {
         setAlert("Erro desconhecido ao enviar dados.");
       }
     } finally {
-      setLoading(false); // Finaliza carregamento
+      setLoading(false);
     }
   };
 
@@ -122,7 +122,7 @@ export default function Relatorio_valores() {
             icon={<SearchOutlined />}
             onClick={handleSubmit}
             type="primary"
-            loading={loading} // Botão exibe carregamento
+            loading={loading}
           >
             Relatório
           </Button>
@@ -139,7 +139,7 @@ export default function Relatorio_valores() {
               />
             </div>
           )}
-          <RelatorioCaixaTable data={tableData} loading={loading} /> {/* Passa `loading` para a tabela */}
+          <RelatorioCaixaTable data={tableData} loading={loading} />
         </Col>
       </Row>
     </div>
