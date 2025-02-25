@@ -6,12 +6,13 @@ import dayjs from 'dayjs';
 
 interface DataProps {
   data: string;
-  onChange: (value: string | string[]) => void; // Ajustado para aceitar string ou string[]
+  placeholder?: string;
+  onChange: (value: string | string[]) => void;
 }
 
 const dateFormat = "DD/MM/YYYY";
 
-export default function SelectDate({ data, onChange }: DataProps) {
+export default function SelectDate({ data, placeholder, onChange }: DataProps) {
   const handleDateChange: DatePickerProps["onChange"] = (_, dateString) => {
     onChange(dateString);
   };
@@ -19,7 +20,7 @@ export default function SelectDate({ data, onChange }: DataProps) {
   return (
     <Space direction="vertical" size={20}>
       <DatePicker
-        placeholder="Selecione a Data"
+        placeholder={placeholder || "Selecione a Data"}
         format={dateFormat}
         onChange={handleDateChange}
         value={data ? dayjs(data, dateFormat) : null}

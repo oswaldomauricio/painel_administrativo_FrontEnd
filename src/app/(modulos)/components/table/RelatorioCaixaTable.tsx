@@ -9,10 +9,11 @@ import { useSession } from "next-auth/react";
 interface RelatorioCaixaTableProps {
   data: (CaixaItem & { key: number })[];
   loading: boolean;
+  description?: string;
 }
 
 export default function RelatorioCaixaTable({
-  data, loading
+  data, loading, description
 }: RelatorioCaixaTableProps) {
   const { data: session, status } = useSession();
   const userRole = session?.user?.role || "";
@@ -37,6 +38,10 @@ export default function RelatorioCaixaTable({
       title: "Data",
       dataIndex: "data",
       align: "center",
+      sorter: {
+        compare: (a, b) => parseFloat(a.valor) - parseFloat(b.valor),
+        multiple: 5,
+      },
     },
     {
       title: "Número Documento",
@@ -144,7 +149,7 @@ export default function RelatorioCaixaTable({
       pagination={false}
       loading={loading}
       locale={{
-        emptyText: loading ? <Spin size="large" /> : <Empty description="Não há dados!" />,
+        emptyText: loading ? <Spin size="large" /> : <Empty description={description || "Não há dados!"} />,
       }}
     />
   );
