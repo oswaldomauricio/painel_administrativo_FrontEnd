@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Drawer, Form, Row, Space } from "antd";
-
+import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import { Button, Col, Drawer, Form, Row, Space, Spin } from "antd"
 import { useSession } from "next-auth/react";
 import SelectBtn_lojas from "../../components/select/select_loja";
 import Select_Tipo_Operacao from "../../components/select/select_tipo_operacao";
@@ -19,6 +18,8 @@ export default function Enviar_valores() {
   const user_role = session?.user?.role;
 
   const [resetTrigger, setResetTrigger] = useState(0);
+  const [loading, setLoading] = useState(false);
+
 
   const [tipoOperacao, setTipoOperacao] = useState<string>("");
   const [tipo, setTipo] = useState<string>("");
@@ -141,21 +142,24 @@ export default function Enviar_valores() {
 };
 
 
-  const inserirValorAntesDoDiaAtualPorPermissao = () => {
-    const dataAtual = new Date();
-    const dataFormatadaAtual = formatarData(dataAtual); // Converte a data atual para DD/MM/YYYY
+const inserirValorAntesDoDiaAtualPorPermissao = async () => {
+  setLoading(true);
+  const dataAtual = new Date();
+  const dataFormatadaAtual = formatarData(dataAtual);
 
-    console.log(selectedDate, dataFormatadaAtual) // Obtém a data atual do sistema
-    console.log(user_role);
+  if (user_role !== "ADMIN" && selectedDate !== dataFormatadaAtual) {
+    setError("Operação proibida: Você não tem permissão para registrar um valor em uma data anterior à data atual.");
+    setLoading(false);
+    return;
+  }
 
-    if (user_role !== 'ADMIN' && selectedDate !== dataFormatadaAtual) {
-        console.log("Operação proibida: Você não tem permissão para selecionar uma data anterior à data atual.");
-        setError("Operação proibida: Você não tem permissão para registrar um valor em uma data anterior à data atual, verificar com o setor de conferência de caixa!")
-        return;
-    }
-
-    handleSubmit()
+  try {
+    await handleSubmit();
+  } finally {
+    setLoading(false);
+  }
 };
+
 
   return (
     <div>
@@ -189,8 +193,8 @@ export default function Enviar_valores() {
         extra={
           <Space>
             <Button onClick={onClose}>Cancelar</Button>
-            <Button onClick={inserirValorAntesDoDiaAtualPorPermissao} type="primary">
-              Enviar
+            <Button onClick={inserirValorAntesDoDiaAtualPorPermissao} type="primary" disabled={loading}>
+              {loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : "Enviar"}
             </Button>
           </Space>
         }
