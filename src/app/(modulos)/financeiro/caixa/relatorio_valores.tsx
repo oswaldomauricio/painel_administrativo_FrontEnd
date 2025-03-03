@@ -41,7 +41,7 @@ export default function Relatorio_valores() {
         setAlert("A data inicial não pode ser maior que a data final.");
       }
     }
-    
+
     setAlert("");
     setLoading(true);
 
@@ -78,7 +78,13 @@ export default function Relatorio_valores() {
         }));
 
         setTableData(mappedData);
-        setSaldoData(data.Saldo);
+        setSaldoData({
+          ...data.Saldo,
+          "Saldo total": Number(data.Saldo["Saldo total"]),
+          entrada: Number(data.Saldo.entrada),
+          saida: Number(data.Saldo.saida),
+          fundo_de_caixa: Number(data.fundo_de_caixa),
+        });
 
         if (mappedData.length === 0) {
           setAlert(
@@ -119,7 +125,15 @@ export default function Relatorio_valores() {
 
   return (
     <div className="w-100%">
-      <Row className="min-w-full items-center justify-between py-8 gap-6">
+      <Row className="min-w-full items-center justify-between py-8">
+      <Col span={6} className="flex justify-center">
+          <Card_values_caixa
+            title="Fundo de caixa"
+            value={saldoData?.fundo_de_caixa || 0}
+            icon={FallOutlined}
+            color="text-bg-fundo-caixa"
+          />
+        </Col>
         <Col span={6} className="flex justify-center">
           <Card_values_caixa
             title="Entrada"
@@ -197,7 +211,11 @@ export default function Relatorio_valores() {
               />
             </div>
           )}
-          <RelatorioCaixaTable data={tableData} loading={loading} description={alert} />
+          <RelatorioCaixaTable
+            data={tableData}
+            loading={loading}
+            description={alert}
+          />
         </Col>
       </Row>
     </div>
