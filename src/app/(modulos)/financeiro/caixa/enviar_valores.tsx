@@ -16,6 +16,8 @@ export default function Enviar_valores() {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   const userId = session?.user?.id;
+  const user_role = session?.user?.role;
+
   const [resetTrigger, setResetTrigger] = useState(0);
 
   const [tipoOperacao, setTipoOperacao] = useState<string>("");
@@ -131,6 +133,30 @@ export default function Enviar_valores() {
     }
   };
 
+  const formatarData = (data: Date) => {
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Janeiro é 0
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+};
+
+
+  const inserirValorAntesDoDiaAtualPorPermissao = () => {
+    const dataAtual = new Date();
+    const dataFormatadaAtual = formatarData(dataAtual); // Converte a data atual para DD/MM/YYYY
+
+    console.log(selectedDate, dataFormatadaAtual) // Obtém a data atual do sistema
+    console.log(user_role);
+
+    if (user_role !== 'ADMIN' && selectedDate !== dataFormatadaAtual) {
+        console.log("Operação proibida: Você não tem permissão para selecionar uma data anterior à data atual.");
+        setError("Operação proibida: Você não tem permissão para registrar um valor em uma data anterior à data atual, verificar com o setor de conferência de caixa!")
+        return;
+    }
+
+    handleSubmit()
+};
+
   return (
     <div>
       <div className="max-w-full">
@@ -163,7 +189,7 @@ export default function Enviar_valores() {
         extra={
           <Space>
             <Button onClick={onClose}>Cancelar</Button>
-            <Button onClick={handleSubmit} type="primary">
+            <Button onClick={inserirValorAntesDoDiaAtualPorPermissao} type="primary">
               Enviar
             </Button>
           </Space>
