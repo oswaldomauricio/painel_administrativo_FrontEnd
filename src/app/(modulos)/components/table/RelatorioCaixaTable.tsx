@@ -89,6 +89,9 @@ export default function RelatorioCaixaTable({
       filters: [
         { text: "RECIBO", value: "RECIBO" },
         { text: "CF / NF", value: "CF / NF" },
+        { text: "CTE", value: "CTE" },
+        { text: "TN", value: "TN" },
+        { text: "DEVOLUCAO", value: "DEVOLUCAO" },
       ],
       filterMode: "tree",
       filterSearch: true,

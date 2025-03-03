@@ -42,6 +42,18 @@ export default function Select_Tipo({
             value: "CF / NF",
             label: "CF / NF",
           },
+          {
+            value: "CTE",
+            label: "CTE",
+          },
+          {
+            value: "TN",
+            label: "TN",
+          },
+          {
+            label: "DEVOLUCAO",
+            value: "DEVOLUCAO",
+          },
         ]}
       />
     </div>
