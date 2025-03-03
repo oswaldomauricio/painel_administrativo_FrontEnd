@@ -19,6 +19,7 @@ export default {
         'bg-entrada': "#FFF79E",
         'bg-saida': "#F2ADA0",
         'bg-saldo': "#C0F2A0",
+        'bg-fundo-caixa': "#FCA268",
         'bg-table-cabecalho': "#FAFAFA",
         'bg-table_hover': "#F8F8F8",
         'bg-logout': "#FF2D08",

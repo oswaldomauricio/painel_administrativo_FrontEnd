@@ -11,7 +11,7 @@ interface CardValuesProps {
 export function Card_values_caixa({ title, value, icon: Icon, color }: CardValuesProps) {
   return (
     <div className="bg-sidebar_main rounded-[35px] p-8 w-[300px] shadow-lg">
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex flex-row items-center justify-center">
         <div className="bg-sidebar_main rounded-lg p-3 w-fit shadow-xl">
           <Icon className="text-white text-3xl" />
         </div>
