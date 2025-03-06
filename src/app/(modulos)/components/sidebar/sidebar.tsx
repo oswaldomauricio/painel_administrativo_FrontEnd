@@ -73,23 +73,41 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       </Sider>
       <Layout>
         <HeaderComponent>
-          <div>
+          <div className="w-full">
             {status === "loading" && (
               <div className="bg-zinc-50/10 animate-pulse rounded-md w-8 h-1 p-2">
                 Carregando...
               </div>
             )}
             {session ? (
-              <div className="flex flex-row gap-2 items-center justify-center">
-                <div className="font-semibold text-black">
-                  {session.user?.name.toUpperCase() || "Usuário"}
+              <div className="flex justify-between items-center w-full">
+                {/* Botão alinhado à esquerda */}
+                <div>
+                  <a href="/MODULO_DE_CAIXA-PAINEL.pdf" download>
+                    <button
+                      style={{
+                        padding: "0px 20px",
+                        fontSize: "16px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Tutorial
+                    </button>
+                  </a>
                 </div>
-                <div className="w-[1px] h-5 bg-black" />
-                <div className="font-semibold text-gray-500">
-                  {session.user?.role.toUpperCase() || "Permissão"}
+
+                {/* Usuário e Logout alinhados à direita */}
+                <div className="flex flex-row gap-2 items-center">
+                  <div className="font-semibold text-black">
+                    {session.user?.name.toUpperCase() || "Usuário"}
+                  </div>
+                  <div className="w-[1px] h-5 bg-black" />
+                  <div className="font-semibold text-gray-500">
+                    {session.user?.role.toUpperCase() || "Permissão"}
+                  </div>
+                  <div className="w-[1px] h-5 bg-black" />
+                  <LogoutBtnProfile />
                 </div>
-                <div className="w-[1px] h-5 bg-black" />
-                <LogoutBtnProfile />
               </div>
             ) : (
               <></>
