@@ -66,6 +66,10 @@ export default function Select_Tipo({
             label: "RECEBIMENTO DE VENDA",
             value: "RECEBIMENTO DE VENDA",
           },
+          {
+            label: "OUTROS",
+            value: "OUTROS",
+          },
         ]}
       />
     </div>
