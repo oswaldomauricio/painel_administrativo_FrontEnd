@@ -54,6 +54,18 @@ export default function Select_Tipo({
             label: "DEVOLUCAO",
             value: "DEVOLUCAO",
           },
+          {
+            label: "DEPOSITO PROSSEGUR",
+            value: "DEPOSITO PROSSEGUR",
+          },
+          {
+            label: "RECEBIMENTO DE DUPLICATA",
+            value: "RECEBIMENTO DE DUPLICATA",
+          },
+          {
+            label: "RECEBIMENTO DE VENDA",
+            value: "RECEBIMENTO DE VENDA",
+          },
         ]}
       />
     </div>
