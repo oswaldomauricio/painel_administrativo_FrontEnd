@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Button, Col, Drawer, Form, Row, Space, Spin } from "antd"
+import { Button, Col, Drawer, Form, Row, Space, Spin } from "antd";
 import { useSession } from "next-auth/react";
 import SelectBtn_lojas from "../../components/select/select_loja";
 import Select_Tipo_Operacao from "../../components/select/select_tipo_operacao";
@@ -20,7 +20,6 @@ export default function Enviar_valores() {
   const [resetTrigger, setResetTrigger] = useState(0);
   const [loading, setLoading] = useState(false);
 
-
   const [tipoOperacao, setTipoOperacao] = useState<string>("");
   const [tipo, setTipo] = useState<string>("");
   const [numeroDoc, setNumeroDoc] = useState("");
@@ -33,6 +32,8 @@ export default function Enviar_valores() {
   const [sucess, setSucess] = useState("");
   const [alert, setAlert] = useState("");
   const [alertField, setAlertField] = useState("");
+
+  const ROLE_USERS: string[] = ["ADMIN", "USER"];
 
   const resetValues = () => {
     setNumeroDoc("");
@@ -135,31 +136,31 @@ export default function Enviar_valores() {
   };
 
   const formatarData = (data: Date) => {
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Janeiro é 0
+    const dia = String(data.getDate()).padStart(2, "0");
+    const mes = String(data.getMonth() + 1).padStart(2, "0"); // Janeiro é 0
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
-};
+  };
 
+  const inserirValorAntesDoDiaAtualPorPermissao = async () => {
+    setLoading(true);
+    const dataAtual = new Date();
+    const dataFormatadaAtual = formatarData(dataAtual);
 
-const inserirValorAntesDoDiaAtualPorPermissao = async () => {
-  setLoading(true);
-  const dataAtual = new Date();
-  const dataFormatadaAtual = formatarData(dataAtual);
+    if (user_role !== "ADMIN" && selectedDate !== dataFormatadaAtual) {
+      setError(
+        "Operação proibida: Você não tem permissão para registrar um valor em uma data anterior à data atual."
+      );
+      setLoading(false);
+      return;
+    }
 
-  if (user_role !== "ADMIN" && selectedDate !== dataFormatadaAtual) {
-    setError("Operação proibida: Você não tem permissão para registrar um valor em uma data anterior à data atual.");
-    setLoading(false);
-    return;
-  }
-
-  try {
-    await handleSubmit();
-  } finally {
-    setLoading(false);
-  }
-};
-
+    try {
+      await handleSubmit();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -174,9 +175,15 @@ const inserirValorAntesDoDiaAtualPorPermissao = async () => {
             </div>
           </div>
           <div>
-            <Button type="primary" onClick={showDrawer} icon={<PlusOutlined />}>
-              Inserir valor
-            </Button>
+            {ROLE_USERS.includes(user_role || "") && (
+              <Button
+                type="primary"
+                onClick={showDrawer}
+                icon={<PlusOutlined />}
+              >
+                Inserir valor
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -193,8 +200,18 @@ const inserirValorAntesDoDiaAtualPorPermissao = async () => {
         extra={
           <Space>
             <Button onClick={onClose}>Cancelar</Button>
-            <Button onClick={inserirValorAntesDoDiaAtualPorPermissao} type="primary" disabled={loading}>
-              {loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : "Enviar"}
+            <Button
+              onClick={inserirValorAntesDoDiaAtualPorPermissao}
+              type="primary"
+              disabled={loading}
+            >
+              {loading ? (
+                <Spin
+                  indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />}
+                />
+              ) : (
+                "Enviar"
+              )}
             </Button>
           </Space>
         }
